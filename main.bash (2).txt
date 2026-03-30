@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "===== DIRECTORY AUDIT ====="
+
+DIRS=("/usr" "/etc" "/var" "/home")
+
+for dir in "${DIRS[@]}"
+do
+    echo "Checking: $dir"
+
+    if [ -d "$dir" ]; then
+        SIZE=$(du -sh $dir 2>/dev/null | cut -f1)
+        PERM=$(ls -ld $dir | awk '{print $1}')
+        OWNER=$(ls -ld $dir | awk '{print $3}')
+
+        echo "Size: $SIZE"
+        echo "Permissions: $PERM"
+        echo "Owner: $OWNER"
+        echo "------------------------"
+    else
+        echo "Directory not found"
+    fi
+done

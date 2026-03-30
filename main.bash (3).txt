@@ -1,0 +1,24 @@
+#!/bin/bash
+
+FILE=$1
+COUNT=0
+
+if [ -z "$FILE" ]; then
+    echo "Usage: $0 <logfile>"
+    exit 1
+fi
+
+if [ ! -f "$FILE" ]; then
+    echo "File does not exist"
+    exit 1
+fi
+
+while read line
+do
+    if echo "$line" | grep -i "error" > /dev/null
+    then
+        COUNT=$((COUNT+1))
+    fi
+done < "$FILE"
+
+echo "Total 'error' occurrences: $COUNT"
